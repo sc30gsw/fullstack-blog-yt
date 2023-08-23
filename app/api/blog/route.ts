@@ -19,11 +19,31 @@ export const GET = async (req: Request, res: NextResponse) => {
 
     const posts = await prisma.post.findMany()
     return NextResponse.json(
-      { message: 'get all posts', posts },
+      { message: 'Succeeded in getting the post list', posts },
       { status: 200 },
     )
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+// 記事投稿用API
+export const POST = async (req: Request, res: NextResponse) => {
+  try {
+    await main()
+
+    const { title, description } = await req.json()
+
+    const newPost = await prisma.post.create({ data: { title, description } })
+
+    return NextResponse.json(
+      { message: 'Posted successfully', newPost },
+      { status: 201 },
+    )
+  } catch (err: any) {
+    return NextResponse.json({ message: err.message })
   } finally {
     await prisma.$disconnect()
   }
