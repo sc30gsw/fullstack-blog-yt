@@ -39,6 +39,7 @@ const PostBlog = () => {
             placeholder="タイトルを入力"
             type="text"
             className="rounded-md px-4 w-full py-2 my-2"
+            required
             value={title}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setTitle(e.target.value)
@@ -47,6 +48,7 @@ const PostBlog = () => {
           <textarea
             placeholder="記事詳細を入力"
             className="rounded-md px-4 py-2 w-full my-2"
+            required
             value={description}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setDescription(e.target.value)
