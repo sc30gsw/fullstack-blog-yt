@@ -17,7 +17,10 @@ export const GET = async (req: Request, res: NextResponse) => {
   try {
     await main()
 
-    const posts = await prisma.post.findMany()
+    const posts = await prisma.post.findMany({
+      orderBy: [{ cratedAt: 'desc' }],
+    })
+
     return NextResponse.json(
       { message: 'Succeeded in getting the post list', posts },
       { status: 200 },
