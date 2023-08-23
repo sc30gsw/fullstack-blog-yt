@@ -48,7 +48,34 @@ export const PUT = async (req: Request, res: NextResponse) => {
 
     return NextResponse.json(
       { message: 'Updated post successfully', updatedPost },
-      { status: 201 },
+      { status: 200 },
+    )
+  } catch (err: any) {
+    return NextResponse.json({ message: err.message }, { status: 500 })
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+// 記事削除用API
+export const DELETE = async (req: Request, res: NextResponse) => {
+  try {
+    const id = parseInt(req.url.split('/blog/')[1])
+
+    await main()
+
+    const post = await prisma.post.findUnique({ where: { id } })
+
+    if (!post)
+      return NextResponse.json({ message: 'Not Found post' }, { status: 404 })
+
+    const deletedPost = await prisma.post.delete({
+      where: { id },
+    })
+
+    return NextResponse.json(
+      { message: 'Deleted post successfully', deletedPost },
+      { status: 200 },
     )
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
