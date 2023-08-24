@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
 
 const PostBlog = () => {
   const [title, setTitle] = useState('')
@@ -12,7 +11,6 @@ const PostBlog = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    toast.loading('投稿中です・・・')
 
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL_LOCAL}/blog`, {
@@ -21,7 +19,6 @@ const PostBlog = () => {
         body: JSON.stringify({ title, description }),
       })
 
-      toast.success('投稿に成功しました！')
       router.push('/')
       router.refresh()
 
@@ -33,7 +30,6 @@ const PostBlog = () => {
   }
   return (
     <>
-      <Toaster />
       <div className="w-full m-auto flex my-4">
         <div className="flex flex-col justify-center items-center m-auto">
           <p className="text-2xl text-slate-200 font-bold p-3">
